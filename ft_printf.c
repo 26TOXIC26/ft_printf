@@ -3,67 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amousaid <amousaid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mousaid <mousaid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 23:40:29 by amousaid          #+#    #+#             */
-/*   Updated: 2023/11/30 21:18:31 by amousaid         ###   ########.fr       */
+/*   Updated: 2023/12/01 00:24:38 by mousaid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void ft_print_format(char format, va_list arg, int *sum)
+void	ft_print_format(char format, va_list arg, int *sum)
 {
-    if (format == 'c')
-        ft_putchar_l((va_arg(arg, int)), sum);
-    else if (format == 's')
-        ft_putstr_l((va_arg(arg, char *)), sum);
-    else if (format == 'd' || format == 'i')
-        ft_putnbr_l((va_arg(arg, int)), sum);
-    else if (format == 'x')
-        ft_puthex_l((va_arg(arg, unsigned int)), sum);
-    else if (format == 'X')
-        ft_putHex_l((va_arg(arg, unsigned int)), sum);
-    else if (format == 'i')
-        ft_putnbr_l((va_arg(arg, int)), sum);
-    else if (format == 'u')
-        ft_putunbr_l((va_arg(arg, unsigned int)), sum);
-    else if (format == '%')
-        ft_putchar_l('%', sum);
-    else if (format == 'p')
-    {
-        void *p;
-        p = va_arg(arg, void *);
-        
-        if (p == NULL)
-            ft_putstr_l("(nil)", sum);
-        else
-        {
-            ft_putstr_l("0x", sum);
-            ft_puthex_l((long long)p, sum);
-        }
-    }
+	void	*p;
+
+	if (format == 'c')
+		ft_putchar_l((va_arg(arg, int)), sum);
+	else if (format == 's')
+		ft_putstr_l((va_arg(arg, char *)), sum);
+	else if (format == 'd' || format == 'i')
+		ft_putnbr_l((va_arg(arg, int)), sum);
+	else if (format == 'x' || format == 'X')
+		ft_puthex_l((va_arg(arg, unsigned int)), format, sum);
+	else if (format == 'u')
+		ft_putunbr_l((va_arg(arg, unsigned int)), sum);
+	else if (format == '%')
+		ft_putchar_l('%', sum);
+	else if (format == 'p')
+	{
+		p = va_arg(arg, void *);
+		if (p == NULL)
+			ft_putstr_l("(nil)", sum);
+		else
+		{
+			ft_putstr_l("0x", sum);
+			ft_puthex_l((long long)p, 'x', sum);
+		}
+	}
 }
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-    va_list arg;
-    int sum;
-    int i;
+	va_list	arg;
+	int		sum;
+	int		i;
 
-    va_start(arg, format);
-    sum = 0;
-    i = 0;
-    while (format[i])
-    {
-        if (format[i] == '%')
-            ft_print_format(format[++i], arg, &sum);
-        else
-            ft_putchar_l(format[i], &sum);
-        i++;
-    }
-    va_end(arg);
-    return (sum);
+	va_start(arg, format);
+	sum = 0;
+	i = 0;
+	while (format[i])
+	{
+		if (format[i] == '%')
+			ft_print_format(format[++i], arg, &sum);
+		else
+			ft_putchar_l(format[i], &sum);
+		i++;
+	}
+	va_end(arg);
+	return (sum);
 }
 
 // #include <stdio.h>
@@ -102,10 +98,9 @@ int ft_printf(const char *format, ...)
 //     printf("\n");
 //     printf("%d " , x);
 //     printf("\n");
-    
 
 //     // ft_printf
-    
+
 //     printf("\nTesting ft_printf:");
 //     printf("\n");
 //     x = ft_printf("Integer: %u", num);
@@ -133,21 +128,21 @@ int ft_printf(const char *format, ...)
 //     printf("%d " , x);
 //     printf("\n");
 
-//     return 0;
+//     return (0);
 // }
 // int main()
 // {
 //     int x;
-    // x = printf(" NULL %s NULL ", NULL);
-    // printf("\n");
-    // printf("%d " , x);
-    // printf("\n");
-    // x = ft_printf(" NULL %s NULL ", NULL);
-    // printf("\n");
-    // printf("%d " , x);
-    // printf("\n");
-    // printf(" %x \n", LONG_MIN);
-    // ft_printf("%x  \n", LONG_MIN);
+// x = printf(" NULL %s NULL ", NULL);
+// printf("\n");
+// printf("%d " , x);
+// printf("\n");
+// x = ft_printf(" NULL %s NULL ", NULL);
+// printf("\n");
+// printf("%d " , x);
+// printf("\n");
+// printf(" %x \n", LONG_MIN);
+// ft_printf("%x  \n", LONG_MIN);
 //     printf("\n");
 //     printf("%d " , x);
 //     printf("\n");

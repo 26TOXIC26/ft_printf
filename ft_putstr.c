@@ -19,7 +19,6 @@ void	ft_putstr_l(char *s, int *sum)
 	i = 0;
 	if (!s)
 		s = "(null)";
-	
 	while (s[i])
 	{
 		ft_putchar_l(s[i], sum);
